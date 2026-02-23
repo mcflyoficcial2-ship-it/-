@@ -112,7 +112,6 @@ background:linear-gradient(90deg,#22c55e,#4ade80);
 transition:.4s;
 }
 
-/* AI avatar */
 .avatar{
 width:80px;
 height:80px;
@@ -135,7 +134,6 @@ box-shadow:0 6px 15px rgba(0,0,0,.08);
 text-align:center;
 }
 
-/* XP animation */
 .xp-float{
 position:absolute;
 right:20px;
@@ -150,7 +148,6 @@ animation:xpUp 1s ease forwards;
 100%{opacity:0;transform:translateY(-40px)}
 }
 
-/* Confetti */
 .confetti{
 position:fixed;
 width:10px;
@@ -204,9 +201,10 @@ opacity:0;
 <div class="big-task" id="task">Нажми старт 🚀</div>
 <input type="number" id="answer" placeholder="Ответ">
 
-<button class="success" onclick="startGame()">▶ Старт</button>
-<button class="primary" onclick="checkAnswer()">Проверить</button>
-<button class="gray" onclick="stopGame()">⏹ Стоп</button>
+<button id="startBtn" class="success" onclick="startGame()">▶ Старт</button>
+<button id="checkBtn" class="primary hidden" onclick="checkAnswer()">Проверить</button>
+<button id="stopBtn" class="gray hidden" onclick="stopGame()">⏹ Стоп</button>
+
 <button class="gray" onclick="backToMenu()">⬅ Назад</button>
 
 <div class="ai-bubble" id="aiText">
@@ -239,6 +237,10 @@ const streakSpan=document.getElementById('streak');
 const aiText=document.getElementById('aiText');
 const historyDiv=document.getElementById('history');
 
+const startBtn=document.getElementById("startBtn");
+const checkBtn=document.getElementById("checkBtn");
+const stopBtn=document.getElementById("stopBtn");
+
 function enterChild(){
 document.getElementById('roleSelect').classList.add('hidden');
 document.getElementById('child').classList.remove('hidden');
@@ -250,9 +252,7 @@ document.getElementById('statsPage').classList.remove('hidden');
 showStats();
 }
 
-function enterTeacher(){
-enterParent();
-}
+function enterTeacher(){ enterParent(); }
 
 function backToMenu(){
 document.getElementById('child').classList.add('hidden');
@@ -263,14 +263,24 @@ document.getElementById('roleSelect').classList.remove('hidden');
 function startGame(){
 isActive=true;
 data.streak=0;
-newTask();
+
+startBtn.classList.add("hidden");
+checkBtn.classList.remove("hidden");
+stopBtn.classList.remove("hidden");
+
 aiText.innerText="Поехали! 🚀";
+newTask();
 }
 
 function stopGame(){
 isActive=false;
-task.innerText="Урок завершён 👍";
-aiText.innerText="Отличная работа!";
+
+startBtn.classList.remove("hidden");
+checkBtn.classList.add("hidden");
+stopBtn.classList.add("hidden");
+
+task.innerText="Нажми старт 🚀";
+aiText.innerText="Отличная работа! Хочешь ещё?";
 }
 
 function newTask(){
