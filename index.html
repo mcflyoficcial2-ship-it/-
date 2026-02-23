@@ -2,79 +2,44 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>SmartIQ — Умный счёт</title>
+<title>SmartIQ — Начало</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div class="app">
+<div class="start-screen">
 
-<!-- ROLE SELECT -->
-<div id="roleSelect" class="card">
-<h2>Кто вы?</h2>
-<button class="primary" onclick="enterChild()">👦 Я ребёнок</button>
-<button class="primary" onclick="enterParent()">👨‍👩‍👧 Я родитель</button>
-<button class="primary" onclick="enterTeacher()">👩‍🏫 Я учитель</button>
-</div>
+  <!-- Фоновая анимация облаков -->
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
 
-<!-- CHILD -->
-<div id="child" class="card hidden">
-    
-<label for="levelSelect">Выберите уровень сложности:</label>
-<select id="levelSelect">
-  <option value="1">Уровень 1: 0–9</option>
-  <option value="2">Уровень 2: 10–99</option>
-  <option value="3">Уровень 3: 100–999</option>
-  <option value="4">Уровень 4: 1000–9999</option>
-  <option value="5">Уровень 5: 10000–99999</option>
-</select>
+  <!-- Аватар Интеллекта -->
+  <div class="avatar-container">
+    <div class="avatar">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="#5b7cfa"/>
+        <circle cx="35" cy="45" r="6" fill="white"/>
+        <circle cx="65" cy="45" r="6" fill="white"/>
+        <path d="M35 65 Q50 80 65 65" stroke="white" stroke-width="5" fill="none"/>
+      </svg>
+    </div>
+    <div class="ai-text">Привет! Я Интеллект 🤖 Давай прокачаем мозг!</div>
+  </div>
 
-<div class="avatar">
-<svg viewBox="0 0 100 100">
-<circle cx="50" cy="50" r="45" fill="#5b7cfa"/>
-<circle cx="35" cy="45" r="6" fill="white"/>
-<circle cx="65" cy="45" r="6" fill="white"/>
-<path d="M35 65 Q50 80 65 65" stroke="white" stroke-width="5" fill="none"/>
-</svg>
-</div>
-
-<div class="stats">
-<div>Level <span id="level">1</span></div>
-<div>XP <span id="xp">0</span></div>
-<div>🔥 <span id="streak">0</span></div>
-</div>
-
-<div class="progress">
-<div class="progress-bar" id="xpBar"></div>
-</div>
-
-<div class="big-task" id="task">Нажми старт 🚀</div>
-<input type="number" id="answer" placeholder="Ответ">
-
-<button id="startBtn" class="success" onclick="startGame()">▶ Старт</button>
-<button id="checkBtn" class="primary hidden" onclick="checkAnswer()">Проверить</button>
-<button id="stopBtn" class="gray hidden" onclick="stopGame()">⏹ Стоп</button>
-
-<button class="gray" onclick="backToMenu()">⬅ Назад</button>
-
-<div class="ai-bubble" id="aiText">
-Привет! Я Интеллект 🤖 Давай прокачаем мозг!
-</div>
+  <!-- Кнопки выбора роли -->
+  <div class="role-buttons">
+    <button class="role-btn" onclick="enterChild()">👦 Я ребёнок</button>
+    <button class="role-btn" onclick="enterParent()">👨‍👩‍👧 Я родитель</button>
+    <button class="role-btn" onclick="enterTeacher()">👩‍🏫 Я учитель</button>
+  </div>
 
 </div>
 
-<!-- STATS -->
-<div id="statsPage" class="card hidden">
-<h2>Статистика</h2>
-<canvas id="chart" width="320" height="200"></canvas>
-<div id="history"></div>
-<button class="gray" onclick="backToMenu()">⬅ Назад</button>
-</div>
-
-</div>
+<!-- Здесь будут открываться интерфейсы ребёнка/статистика -->
+<div id="child" class="hidden"></div>
+<div id="statsPage" class="hidden"></div>
 
 <script src="script.js"></script>
 </body>
