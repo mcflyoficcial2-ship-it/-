@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>SmartIQ — Урок</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="card">
+
+  <label for="levelSelect">Выберите уровень сложности:</label>
+  <select id="levelSelect">
+    <option value="1">Уровень 1: 0–9</option>
+    <option value="2">Уровень 2: 10–99</option>
+    <option value="3">Уровень 3: 100–999</option>
+    <option value="4">Уровень 4: 1000–9999</option>
+    <option value="5">Уровень 5: 10000–99999</option>
+  </select>
+
+  <div class="big-task" id="task">Нажми старт 🚀</div>
+  <input type="number" id="answer" placeholder="Ответ">
+
+  <button id="startBtn" class="success">▶ Старт</button>
+  <button id="checkBtn" class="primary hidden">Проверить</button>
+  <button id="stopBtn" class="gray hidden">⏹ Стоп</button>
+
+  <div class="ai-bubble" id="aiText">Я помогу тебе учиться!</div>
+
+  <a href="index.html" class="gray">⬅ Назад</a>
+
+  <div class="stats">
+    <div>XP: <span id="xp">0</span></div>
+    <div>🔥 <span id="streak">0</span></div>
+  </div>
+  <div class="progress">
+    <div class="progress-bar" id="xpBar"></div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
