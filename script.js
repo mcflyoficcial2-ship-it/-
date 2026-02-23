@@ -1,4 +1,4 @@
-// Элементы DOM
+// DOM элементы
 const startBtn = document.getElementById('startBtn');
 const checkBtn = document.getElementById('checkBtn');
 const stopBtn = document.getElementById('stopBtn');
@@ -10,16 +10,15 @@ const xpBar = document.getElementById('xpBar');
 const levelSelect = document.getElementById('levelSelect');
 const aiText = document.getElementById('aiText');
 
-// Переменные состояния
+// Состояние
 let currentAnswer = 0;
 let xp = 0;
 let streak = 0;
-let timer = null;
 
 // AI фразы
 const aiPhrases = [
   "Отлично! Продолжаем!",
-  "Ты молодец, давай следующий!",
+  "Ты молодец! Давай следующий пример!",
   "Умница! Еще один пример!",
   "Ты справляешься замечательно!",
   "Давай проверим следующий пример!"
@@ -44,7 +43,7 @@ function generateExample(level){
   taskDiv.textContent = `${a} ${op} ${b} = ?`;
 }
 
-// Обновление XP
+// Обновление XP и прогресса
 function updateXP(correct){
   if(correct){
     streak++;
@@ -54,10 +53,11 @@ function updateXP(correct){
   }
   xpSpan.textContent = xp;
   streakSpan.textContent = streak;
+  // Прогресс бар: максимум 100%
   xpBar.style.width = `${Math.min(xp,100)}%`;
 }
 
-// Показать случайную фразу AI
+// Показываем случайную фразу AI
 function showAIPhrase(){
   const phrase = aiPhrases[Math.floor(Math.random() * aiPhrases.length)];
   aiText.textContent = phrase;
@@ -82,7 +82,7 @@ checkBtn.addEventListener('click', ()=>{
   } else {
     updateXP(false);
   }
-  // Генерация нового примера сразу
+  // Генерация нового примера
   const level = levelSelect.value;
   generateExample(level);
   answerInput.value = '';
