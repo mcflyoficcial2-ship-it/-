@@ -1,3 +1,4 @@
+/* Базовые стили */
 body{
   margin:0;
   font-family:"Poppins","Segoe UI",sans-serif;
@@ -8,11 +9,8 @@ body{
 
 .hidden{display:none;}
 
-/* Стартовый экран */
-.start-screen{
-  position:relative;
-  width:100%;
-  height:100vh;
+/* Стартовый экран и карточки */
+.start-screen, .card{
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -37,6 +35,23 @@ body{
   gap:16px;
   box-sizing:border-box;
 }
+
+/* Аватар ИИ */
+.avatar-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:20px;
+}
+.avatar svg{
+  width:100px;
+  height:100px;
+  max-width:25vw;
+  max-height:25vw;
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.ai-text{margin-top:10px;font-size:18px;font-weight:600;text-align:center;}
 
 /* Кнопки градиентные */
 .btn-grad, .role-btn, .back-btn{
@@ -68,22 +83,30 @@ body{
   font-weight:600;
 }
 
-/* Аватар ИИ */
-.avatar-container{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  margin-bottom:20px;
+/* Поле ввода красивое */
+input[type="number"] {
+  width:100%;
+  max-width:300px;
+  padding:12px 16px;
+  font-size:16px;
+  border-radius:16px;
+  border:2px solid #d1d5db;
+  outline:none;
+  box-sizing:border-box;
+  text-align:center;
+  transition: 0.3s;
 }
-.avatar svg{
-  width:100px;
-  height:100px;
-  max-width:25vw;
-  max-height:25vw;
-  animation:float 3s ease-in-out infinite;
+
+input[type="number"]:focus {
+  border-color:#22c55e;
+  box-shadow:0 0 10px rgba(34,197,94,0.5);
 }
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-.ai-text{margin-top:10px;font-size:18px;font-weight:600;text-align:center;}
+
+/* Отступы для поля ввода */
+.big-task + input[type="number"] {
+  margin-top:12px;
+  margin-bottom:16px;
+}
 
 /* Статистика */
 .stats{display:flex;justify-content:space-between;font-weight:600;font-size:14px;margin-bottom:8px;}
@@ -106,13 +129,4 @@ body{
 
 /* Адаптивность */
 @media (max-width:600px){
-  .big-task{font-size:32px;}
-  .ai-text{font-size:16px;}
-  .btn-grad, .role-btn{font-size:14px;padding:10px;}
-  .avatar svg{max-width:35vw; max-height:35vw;}
-  .cloud{width:100px;height:50px;}
-}
-@media (min-width:1200px){
-  .big-task{font-size:48px;}
-  .ai-text{font-size:20px;}
-}
+  .big-task{font-size
