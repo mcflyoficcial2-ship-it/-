@@ -1,0 +1,155 @@
+:root{
+--primary:#5b7cfa;
+--secondary:#7f53ff;
+--green:#22c55e;
+--red:#ef4444;
+--glass:rgba(255,255,255,0.85);
+}
+
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+font-family:"Segoe UI",system-ui;
+background:linear-gradient(135deg,#5b7cfa,#7f53ff);
+min-height:100vh;
+display:flex;
+justify-content:center;
+padding:20px;
+color:#1f2937;
+overflow-x:hidden;
+}
+
+.app{width:100%;max-width:440px;}
+
+.card{
+background:var(--glass);
+backdrop-filter:blur(12px);
+border-radius:24px;
+padding:22px;
+box-shadow:0 20px 40px rgba(0,0,0,.15);
+margin-bottom:16px;
+animation:fadeIn .5s ease;
+position:relative;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.hidden{display:none;}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:18px;
+margin:10px 0;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:.25s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.primary{
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+color:white;
+}
+
+.success{background:var(--green);color:white;}
+.gray{background:#e5e7eb;}
+
+.big-task{
+font-size:42px;
+text-align:center;
+margin:20px 0;
+font-weight:800;
+}
+
+input{
+width:100%;
+padding:16px;
+border-radius:18px;
+border:2px solid #e0e7ff;
+font-size:24px;
+text-align:center;
+}
+
+.stats{
+display:flex;
+justify-content:space-between;
+font-weight:600;
+font-size:14px;
+margin-bottom:8px;
+}
+
+.progress{
+height:8px;
+background:#e5e7eb;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+transition:.4s;
+}
+
+.avatar{
+width:80px;
+height:80px;
+margin:0 auto 10px;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+}
+
+.ai-bubble{
+background:white;
+padding:12px;
+border-radius:16px;
+font-size:14px;
+margin-top:12px;
+box-shadow:0 6px 15px rgba(0,0,0,.08);
+text-align:center;
+}
+
+.xp-float{
+position:absolute;
+right:20px;
+top:20px;
+color:var(--green);
+font-weight:bold;
+animation:xpUp 1s ease forwards;
+}
+
+@keyframes xpUp{
+0%{opacity:1;transform:translateY(0)}
+100%{opacity:0;transform:translateY(-40px)}
+}
+
+.confetti{
+position:fixed;
+width:10px;
+height:10px;
+top:-10px;
+animation:fall 2s linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(100vh) rotate(360deg);
+opacity:0;
+}
+}
