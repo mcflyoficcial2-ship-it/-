@@ -1,0 +1,118 @@
+body{
+  margin:0;
+  font-family:"Poppins","Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#5b7cfa,#7f53ff);
+  color:#1f2937;
+  overflow-x:hidden;
+}
+
+.hidden{display:none;}
+
+/* Стартовый экран */
+.start-screen{
+  position:relative;
+  width:100%;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+}
+
+/* Карточки */
+.card{
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  margin:16px auto;
+  width:90%;
+  max-width:500px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-sizing:border-box;
+}
+
+/* Кнопки градиентные */
+.btn-grad, .role-btn, .back-btn{
+  cursor:pointer;
+  font-weight:600;
+  border:none;
+  border-radius:18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-align:center;
+}
+.btn-grad, .role-btn{
+  background:linear-gradient(90deg,#22c55e,#4ade80);
+  color:white;
+  font-size:16px;
+  padding:12px;
+  width:100%;
+  max-width:300px;
+  margin:auto;
+}
+.stop-btn{background:linear-gradient(90deg,#ef4444,#f87171);}
+.btn-grad:hover, .role-btn:hover, .back-btn:hover{
+  transform: translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+.back-btn{
+  background:linear-gradient(90deg,#5b7cfa,#7f53ff);
+  color:white;
+  padding:10px 18px;
+  font-weight:600;
+}
+
+/* Аватар ИИ */
+.avatar-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:20px;
+}
+.avatar svg{
+  width:100px;
+  height:100px;
+  max-width:25vw;
+  max-height:25vw;
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.ai-text{margin-top:10px;font-size:18px;font-weight:600;text-align:center;}
+
+/* Статистика */
+.stats{display:flex;justify-content:space-between;font-weight:600;font-size:14px;margin-bottom:8px;}
+.progress{height:8px;background:#e5e7eb;border-radius:10px;overflow:hidden;}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:.4s;}
+
+/* Облачка */
+.cloud{
+  position:absolute;
+  background: rgba(255,255,255,0.7);
+  border-radius:50%;
+  width:150px;
+  height:80px;
+  animation:moveCloud 80s linear infinite;
+}
+.cloud1{top:10%; left:-200px; animation-duration:90s;}
+.cloud2{top:35%; left:-250px; animation-duration:120s;}
+.cloud3{top:60%; left:-180px; animation-duration:100s;}
+@keyframes moveCloud{0%{transform:translateX(0);}100%{transform:translateX(120vw);}}
+
+/* Адаптивность */
+@media (max-width:600px){
+  .big-task{font-size:32px;}
+  .ai-text{font-size:16px;}
+  .btn-grad, .role-btn{font-size:14px;padding:10px;}
+  .avatar svg{max-width:35vw; max-height:35vw;}
+  .cloud{width:100px;height:50px;}
+}
+@media (min-width:1200px){
+  .big-task{font-size:48px;}
+  .ai-text{font-size:20px;}
+}
