@@ -1,38 +1,273 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<title>SmartIQ — Статистика</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+body{
+  margin:0;
+  font-family:"Poppins","Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#5b7cfa,#7f53ff);
+  color:#1f2937;
+  overflow-x:hidden;
+}
 
-<div class="card">
+.hidden{display:none;}
 
-  <!-- Аватар ИИ -->
-  <div class="avatar-container">
-    <div class="avatar">
-      <svg viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="45" fill="#5b7cfa"/>
-        <circle cx="35" cy="45" r="6" fill="white"/>
-        <circle cx="65" cy="45" r="6" fill="white"/>
-        <path d="M35 65 Q50 80 65 65" stroke="white" stroke-width="5" fill="none"/>
-      </svg>
-    </div>
-    <div class="ai-text" id="aiText">Привет! Посмотрим прогресс!</div>
-  </div>
+/* Стартовый экран */
+.start-screen{
+  position:relative;
+  width:100%;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+}
 
-  <h2>Статистика</h2>
-  <canvas id="chart" width="320" height="200"></canvas>
-  <div id="history"></div>
+/* Облачка */
+.cloud{
+  position:absolute;
+  background: rgba(255,255,255,0.7);
+  border-radius:50%;
+  width:150px;
+  height:80px;
+  animation:moveCloud 80s linear infinite;
+}
+.cloud1{top:10%; left:-200px; animation-duration:90s;}
+.cloud2{top:35%; left:-250px; animation-duration:120s;}
+.cloud3{top:60%; left:-180px; animation-duration:100s;}
+@keyframes moveCloud{0%{transform:translateX(0);}100%{transform:translateX(120vw);}}
 
-  <!-- Назад -->
-  <a href="index.html" class="back-btn">⬅ Назад</a>
+/* Карточки */
+.card{
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  margin:16px auto;
+  width:90%;
+  max-width:500px;
+  text-align:center;
+  box-sizing:border-box;
+}
 
-</div>
+/* Аватар ИИ */
+.avatar-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:20px;
+  animation:fadeIn 1s ease forwards;
+}
+.avatar svg{
+  width:100px;
+  height:100px;
+  max-width:25vw;
+  max-height:25vw;
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.ai-text{
+  margin-top:10px;
+  font-size:18px;
+  font-weight:600;
+  color:#1f2937;
+  text-align:center;
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+/* Кнопки градиентные */
+.btn-grad{
+  background:linear-gradient(90deg,#22c55e,#4ade80);
+  color:white;
+  font-weight:600;
+  font-size:16px;
+  padding:12px;
+  border:none;
+  border-radius:16px;
+  width:100%;
+  max-width:300px;
+  margin:8px auto;
+  cursor:pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-grad:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+.stop-btn{background:linear-gradient(90deg,#ef4444,#f87171);}
+
+/* Назад */
+.back-btn{
+  display:inline-block;
+  background:linear-gradient(90deg,#5b7cfa,#7f53ff);
+  color:white;
+  padding:10px 18px;
+  border-radius:12px;
+  font-weight:600;
+  text-decoration:none;
+  margin:10px 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.back-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Статистика */
+.stats{
+  display:flex;
+  justify-content:space-between;
+  font-weight:600;
+  font-size:14px;
+  margin-bottom:8px;
+}
+.progress{height:8px;background:#e5e7eb;border-radius:10px;overflow:hidden;}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:.4s;}
+
+/* Адаптивность */
+@media (max-width:600px){
+  .big-task{font-size:32px;}
+  .ai-text{font-size:16px;}
+  .btn-grad{font-size:14px;padding:10px;}
+  .avatar svg{max-width:35vw; max-height:35vw;}
+  .cloud{width:100px;height:50px;}
+}
+@media (min-width:1200px){
+  .big-task{font-size:48px;}
+  .ai-text{font-size:20px;}
+}body{
+  margin:0;
+  font-family:"Poppins","Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#5b7cfa,#7f53ff);
+  color:#1f2937;
+  overflow-x:hidden;
+}
+
+.hidden{display:none;}
+
+/* Стартовый экран */
+.start-screen{
+  position:relative;
+  width:100%;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+}
+
+/* Облачка */
+.cloud{
+  position:absolute;
+  background: rgba(255,255,255,0.7);
+  border-radius:50%;
+  width:150px;
+  height:80px;
+  animation:moveCloud 80s linear infinite;
+}
+.cloud1{top:10%; left:-200px; animation-duration:90s;}
+.cloud2{top:35%; left:-250px; animation-duration:120s;}
+.cloud3{top:60%; left:-180px; animation-duration:100s;}
+@keyframes moveCloud{0%{transform:translateX(0);}100%{transform:translateX(120vw);}}
+
+/* Карточки */
+.card{
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  margin:16px auto;
+  width:90%;
+  max-width:500px;
+  text-align:center;
+  box-sizing:border-box;
+}
+
+/* Аватар ИИ */
+.avatar-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:20px;
+  animation:fadeIn 1s ease forwards;
+}
+.avatar svg{
+  width:100px;
+  height:100px;
+  max-width:25vw;
+  max-height:25vw;
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.ai-text{
+  margin-top:10px;
+  font-size:18px;
+  font-weight:600;
+  color:#1f2937;
+  text-align:center;
+}
+
+/* Кнопки градиентные */
+.btn-grad{
+  background:linear-gradient(90deg,#22c55e,#4ade80);
+  color:white;
+  font-weight:600;
+  font-size:16px;
+  padding:12px;
+  border:none;
+  border-radius:16px;
+  width:100%;
+  max-width:300px;
+  margin:8px auto;
+  cursor:pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-grad:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+.stop-btn{background:linear-gradient(90deg,#ef4444,#f87171);}
+
+/* Назад */
+.back-btn{
+  display:inline-block;
+  background:linear-gradient(90deg,#5b7cfa,#7f53ff);
+  color:white;
+  padding:10px 18px;
+  border-radius:12px;
+  font-weight:600;
+  text-decoration:none;
+  margin:10px 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.back-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Статистика */
+.stats{
+  display:flex;
+  justify-content:space-between;
+  font-weight:600;
+  font-size:14px;
+  margin-bottom:8px;
+}
+.progress{height:8px;background:#e5e7eb;border-radius:10px;overflow:hidden;}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:.4s;}
+
+/* Адаптивность */
+@media (max-width:600px){
+  .big-task{font-size:32px;}
+  .ai-text{font-size:16px;}
+  .btn-grad{font-size:14px;padding:10px;}
+  .avatar svg{max-width:35vw; max-height:35vw;}
+  .cloud{width:100px;height:50px;}
+}
+@media (min-width:1200px){
+  .big-task{font-size:48px;}
+  .ai-text{font-size:20px;}
+}
