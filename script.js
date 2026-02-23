@@ -16,28 +16,24 @@ const checkBtn = document.getElementById("checkBtn");
 const stopBtn = document.getElementById("stopBtn");
 const levelSelect = document.getElementById("levelSelect");
 
-// Привязка кнопок
 startBtn.addEventListener("click", startGame);
 checkBtn.addEventListener("click", checkAnswer);
 stopBtn.addEventListener("click", stopGame);
 
-function enterChild(){
-  document.getElementById('roleSelect').classList.add('hidden');
+window.enterChild = function(){
+  document.querySelector('.start-screen').classList.add('hidden');
   document.getElementById('child').classList.remove('hidden');
 }
-
-function enterParent(){
-  document.getElementById('roleSelect').classList.add('hidden');
+window.enterParent = function(){
+  document.querySelector('.start-screen').classList.add('hidden');
   document.getElementById('statsPage').classList.remove('hidden');
   showStats();
 }
-
-function enterTeacher(){ enterParent(); }
-
-function backToMenu(){
+window.enterTeacher = function(){ enterParent(); }
+window.backToMenu = function(){
   document.getElementById('child').classList.add('hidden');
   document.getElementById('statsPage').classList.add('hidden');
-  document.getElementById('roleSelect').classList.remove('hidden');
+  document.querySelector('.start-screen').classList.remove('hidden');
 }
 
 function startGame(){
@@ -83,12 +79,8 @@ function newTask(){
   b = Math.floor(Math.random()*(max-min+1))+min;
 
   operator = Math.random() > 0.5 ? "+" : "-";
-  if(operator === "-"){
-    if(b > a) [a,b] = [b,a]; // не отрицательные
-    correct = a - b;
-  } else {
-    correct = a + b;
-  }
+  if(operator === "-"){ if(b > a) [a,b]=[b,a]; correct = a - b; }
+  else correct = a + b;
 
   task.innerText = `${a} ${operator} ${b}`;
   answer.value = "";
@@ -105,8 +97,8 @@ function checkAnswer(){
     data.streak++;
     showXP();
     confetti();
-    aiText.innerText = "🔥 Отлично!";
-  } else {
+    aiText.innerText = ["🔥 Отлично!", "🎉 Молодец!", "👏 Правильно!"][Math.floor(Math.random()*3)];
+  } else{
     data.streak = 0;
     aiText.innerText = "🙂 Попробуем ещё!";
   }
@@ -160,10 +152,10 @@ function showStats(){
       },
       options:{responsive:true, plugins:{legend:{display:false}}}
     });
-  } else {
-    chart.data.datasets[0].data = [correctCount, wrongCount];
+  } else{
+    chart.data.datasets[0].data = [correctCount,wrongCount];
     chart.update();
   }
 }
 
-}); // конец DOMContentLoaded
+});
