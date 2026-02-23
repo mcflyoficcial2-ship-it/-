@@ -11,6 +11,20 @@
 
 <div class="card">
 
+  <!-- Аватар ИИ -->
+  <div class="avatar-container">
+    <div class="avatar">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="#5b7cfa"/>
+        <circle cx="35" cy="45" r="6" fill="white"/>
+        <circle cx="65" cy="45" r="6" fill="white"/>
+        <path d="M35 65 Q50 80 65 65" stroke="white" stroke-width="5" fill="none"/>
+      </svg>
+    </div>
+    <div class="ai-text" id="aiText">Я помогу тебе учиться!</div>
+  </div>
+
+  <!-- Выбор уровня -->
   <label for="levelSelect">Выберите уровень сложности:</label>
   <select id="levelSelect">
     <option value="1">Уровень 1: 0–9</option>
@@ -20,17 +34,16 @@
     <option value="5">Уровень 5: 10000–99999</option>
   </select>
 
+  <!-- Задача -->
   <div class="big-task" id="task">Нажми старт 🚀</div>
   <input type="number" id="answer" placeholder="Ответ">
 
+  <!-- Кнопки -->
   <button id="startBtn" class="success">▶ Старт</button>
   <button id="checkBtn" class="primary hidden">Проверить</button>
   <button id="stopBtn" class="gray hidden">⏹ Стоп</button>
 
-  <div class="ai-bubble" id="aiText">Я помогу тебе учиться!</div>
-
-  <a href="index.html" class="gray">⬅ Назад</a>
-
+  <!-- Статистика -->
   <div class="stats">
     <div>XP: <span id="xp">0</span></div>
     <div>🔥 <span id="streak">0</span></div>
@@ -38,6 +51,9 @@
   <div class="progress">
     <div class="progress-bar" id="xpBar"></div>
   </div>
+
+  <!-- Назад -->
+  <a href="index.html" class="back-btn">⬅ Назад</a>
 
 </div>
 
