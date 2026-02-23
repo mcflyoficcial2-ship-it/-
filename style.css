@@ -69,7 +69,9 @@ body{
   border-radius:24px;
   padding:22px;
   box-shadow:0 20px 40px rgba(0,0,0,.15);
-  margin-bottom:16px;
+  margin:16px auto;
+  width:90%;
+  max-width:400px;
 }
 
 .stats{
