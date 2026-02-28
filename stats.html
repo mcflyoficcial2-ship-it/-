@@ -2,34 +2,26 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>SmartIQ — Статистика</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Статистика</title>
 <link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <div class="card">
 
-  <!-- Аватар ИИ -->
-  <div class="avatar-container">
-    <div class="avatar">
-      <svg viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="45" fill="#5b7cfa"/>
-        <circle cx="35" cy="45" r="6" fill="white"/>
-        <circle cx="65" cy="45" r="6" fill="white"/>
-        <path d="M35 65 Q50 80 65 65" stroke="white" stroke-width="5" fill="none"/>
-      </svg>
-    </div>
-    <div class="ai-text" id="aiText">Привет! Посмотрим прогресс!</div>
-  </div>
+<h2>Твоя статистика</h2>
 
-  <h2>Статистика</h2>
-  <canvas id="chart" width="320" height="200"></canvas>
-  <div id="history"></div>
+<div class="stats">
+  <div>XP: <span id="xp">0</span></div>
+  <div>🔥: <span id="streak">0</span></div>
+  <div>🏆: <span id="playerLevel">1</span></div>
+</div>
 
-  <!-- Назад -->
-  <button class="back-btn" onclick="window.location.href='index.html'">⬅ Назад</button>
+<div class="progress">
+  <div class="progress-bar" id="xpBar"></div>
+</div>
+
+<button onclick="location.href='index.html'">Назад</button>
 
 </div>
 
