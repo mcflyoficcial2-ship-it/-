@@ -97,6 +97,7 @@ c.remove()
 
 }
 
+// ГЕНЕРАЦИЯ ПРИМЕРА (БЕЗ ОТРИЦАТЕЛЬНЫХ ЧИСЕЛ)
 function generate(){
 
 if(!el("levelSelect")) return
@@ -108,7 +109,22 @@ let b=random(lvl.min,lvl.max)
 
 let op=Math.random()<0.5?"+":"-"
 
-currentAnswer=op=="+"?a+b:a-b
+if(op==="-" ){
+
+// гарантируем положительный результат
+if(b>a){
+let temp=a
+a=b
+b=temp
+}
+
+currentAnswer=a-b
+
+}else{
+
+currentAnswer=a+b
+
+}
 
 el("task").textContent=`${a} ${op} ${b} = ?`
 
@@ -140,6 +156,7 @@ updateUI()
 if(!el("startBtn")) return
 
 el("startBtn").onclick=()=>{
+
 generate()
 startTimer()
 
@@ -160,7 +177,7 @@ if(num===currentAnswer){
 streak++
 xp+=10+streak*2
 
-newLevel=Math.floor(xp/100)+1
+let newLevel=Math.floor(xp/100)+1
 
 if(newLevel>level){
 level=newLevel
