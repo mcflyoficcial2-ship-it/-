@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Статистика</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,27 +15,75 @@
 <div class="card">
 
 <div class="avatar">📊</div>
-<h2>Статистика ребёнка</h2>
+
+<h2>Статистика ученика</h2>
+
+<!-- ОСНОВНЫЕ ПОКАЗАТЕЛИ -->
 
 <div class="stats">
+
 <div>XP: <span id="xp">0</span></div>
 <div>🔥 Серия: <span id="streak">0</span></div>
 <div>🏆 Уровень: <span id="playerLevel">1</span></div>
+
 </div>
 
 <div class="progress">
 <div class="progress-bar" id="xpBar"></div>
 </div>
 
+
+<!-- РАСШИРЕННАЯ СТАТИСТИКА -->
+
+<h3>📊 Подробная статистика</h3>
+
+<div class="statsBlock">
+
+<p>Решено задач: <span id="total">0</span></p>
+
+<p>Правильных ответов: <span id="correct">0</span></p>
+
+<p>Ошибок: <span id="wrong">0</span></p>
+
+<p>Точность: <span id="accuracy">0%</span></p>
+
+<p>Лучший стрик: <span id="bestStreak">0</span></p>
+
+</div>
+
+
+<!-- ДОСТИЖЕНИЯ -->
+
 <h3>🏆 Достижения</h3>
+
 <div id="achievements"></div>
+
+
+<!-- КНОПКИ -->
 
 <button class="btn btn-primary" onclick="location.href='index.html'">
 ⬅ Назад
 </button>
 
+<button class="btn btn-red" onclick="resetProgress()">
+🗑 Сбросить прогресс
+</button>
+
 </div>
 
+
 <script src="script.js"></script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
