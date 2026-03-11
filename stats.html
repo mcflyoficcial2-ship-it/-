@@ -2,26 +2,34 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Статистика</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="card">
 
-<h2>Твоя статистика</h2>
+<div class="avatar">📊</div>
+<h2>Статистика ребёнка</h2>
 
 <div class="stats">
-  <div>XP: <span id="xp">0</span></div>
-  <div>🔥: <span id="streak">0</span></div>
-  <div>🏆: <span id="playerLevel">1</span></div>
+<div>XP: <span id="xp">0</span></div>
+<div>🔥 Серия: <span id="streak">0</span></div>
+<div>🏆 Уровень: <span id="playerLevel">1</span></div>
 </div>
 
 <div class="progress">
-  <div class="progress-bar" id="xpBar"></div>
+<div class="progress-bar" id="xpBar"></div>
 </div>
 
-<button onclick="location.href='index.html'">Назад</button>
+<h3>🏆 Достижения</h3>
+<div id="achievements"></div>
+
+<button class="btn btn-primary" onclick="location.href='index.html'">
+⬅ Назад
+</button>
 
 </div>
 
