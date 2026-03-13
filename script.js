@@ -1,7 +1,7 @@
 function el(id){return document.getElementById(id)}
 
 // =================
-// LOAD DATA
+// DATA STORAGE
 // =================
 
 let data = JSON.parse(localStorage.getItem("brainTrainerData")) || {
@@ -14,15 +14,17 @@ correct:0,
 wrong:0,
 total:0,
 
+history:[],
+
 achievements:[]
 
 }
 
 let level = Math.floor(data.xp/100)+1
-let currentAnswer=0
+let currentAnswer = 0
 
 // =================
-// SAVE
+// SAVE DATA
 // =================
 
 function save(){
@@ -200,7 +202,7 @@ c.remove()
 }
 
 // =================
-// LEVELS
+// LEVEL SETTINGS
 // =================
 
 const levels={
@@ -214,7 +216,7 @@ const levels={
 }
 
 // =================
-// RANDOM
+// RANDOM NUMBER
 // =================
 
 function random(min,max){
@@ -253,7 +255,32 @@ el("task").textContent=`${a} ${op} ${b} = ?`
 }
 
 // =================
-// TRAINING
+// HISTORY (FOR GRAPH)
+// =================
+
+function saveHistory(){
+
+let today = new Date().toLocaleDateString()
+
+let entry = data.history.find(d=>d.date===today)
+
+if(entry){
+
+entry.total++
+
+}else{
+
+data.history.push({
+date:today,
+total:1
+})
+
+}
+
+}
+
+// =================
+// TRAINING LOGIC
 // =================
 
 function initTraining(){
@@ -278,6 +305,7 @@ if(val==="") return
 let num=Number(val)
 
 data.total++
+saveHistory()
 
 if(num===currentAnswer){
 
@@ -316,7 +344,39 @@ generate()
 }
 
 // =================
-// RESET
+// GRAPH
+// =================
+
+function drawChart(){
+
+if(!document.getElementById("progressChart")) return
+
+let labels = data.history.map(d=>d.date)
+let values = data.history.map(d=>d.total)
+
+let ctx=document.getElementById("progressChart")
+
+new Chart(ctx,{
+
+type:"line",
+
+data:{
+labels:labels,
+datasets:[{
+
+label:"Решено задач",
+data:values,
+tension:0.3
+
+}]
+}
+
+})
+
+}
+
+// =================
+// RESET PROGRESS
 // =================
 
 function resetProgress(){
@@ -338,5 +398,6 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 updateUI()
 initTraining()
+drawChart()
 
 })
