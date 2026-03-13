@@ -8,6 +8,9 @@
 <title>Статистика</title>
 
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -17,8 +20,6 @@
 <div class="avatar">📊</div>
 
 <h2>Статистика ученика</h2>
-
-<!-- ОСНОВНЫЕ ПОКАЗАТЕЛИ -->
 
 <div class="stats">
 
@@ -33,33 +34,28 @@
 </div>
 
 
-<!-- РАСШИРЕННАЯ СТАТИСТИКА -->
-
 <h3>📊 Подробная статистика</h3>
 
 <div class="statsBlock">
 
 <p>Решено задач: <span id="total">0</span></p>
-
-<p>Правильных ответов: <span id="correct">0</span></p>
-
+<p>Правильных: <span id="correct">0</span></p>
 <p>Ошибок: <span id="wrong">0</span></p>
-
 <p>Точность: <span id="accuracy">0%</span></p>
-
 <p>Лучший стрик: <span id="bestStreak">0</span></p>
 
 </div>
 
 
-<!-- ДОСТИЖЕНИЯ -->
+<h3>📈 Прогресс обучения</h3>
+
+<canvas id="progressChart"></canvas>
+
 
 <h3>🏆 Достижения</h3>
 
 <div id="achievements"></div>
 
-
-<!-- КНОПКИ -->
 
 <button class="btn btn-primary" onclick="location.href='index.html'">
 ⬅ Назад
@@ -71,19 +67,7 @@
 
 </div>
 
-
 <script src="script.js"></script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
