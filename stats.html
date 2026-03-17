@@ -1,73 +1,44 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Статистика</title>
-
+<title>Статистика ребёнка</title>
 <link rel="stylesheet" href="style.css">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<style>
+body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#fff3e0; display:flex; justify-content:center; align-items:flex-start; padding-top:30px; margin:0;}
+.card {background:white; border-radius:20px; padding:25px; max-width:450px; width:90%; box-shadow:0 8px 20px rgba(0,0,0,0.2); text-align:center; position:relative;}
+h1,h2,h3{margin:10px 0;}
+button {padding:10px 20px; border:none; border-radius:12px; font-size:1rem; cursor:pointer; margin:5px; background:linear-gradient(90deg,#66a6ff,#89f7fe); color:white; transition:0.3s;}
+button:hover {transform:scale(1.05);}
+</style>
 </head>
-
 <body>
 
 <div class="card">
+  <h1>Статистика ребёнка</h1>
 
-<div class="avatar">📊</div>
+  <h3>Общая информация</h3>
+  Всего задач: <span id="total">0</span><br>
+  Правильно: <span id="correct">0</span><br>
+  Неправильно: <span id="wrong">0</span><br>
+  Точность: <span id="accuracy">0%</span><br>
+  Лучшая серия: <span id="bestStreak">0</span><br>
+  Уровень: <span id="playerLevel">1</span><br>
+  XP: <span id="xp">0</span>
 
-<h2>Статистика ученика</h2>
+  <h3>Достижения</h3>
+  <div id="achievements"></div>
 
-<div class="stats">
+  <h3>График прогресса</h3>
+  <canvas id="progressChart"></canvas>
 
-<div>XP: <span id="xp">0</span></div>
-<div>🔥 Серия: <span id="streak">0</span></div>
-<div>🏆 Уровень: <span id="playerLevel">1</span></div>
-
-</div>
-
-<div class="progress">
-<div class="progress-bar" id="xpBar"></div>
-</div>
-
-
-<h3>📊 Подробная статистика</h3>
-
-<div class="statsBlock">
-
-<p>Решено задач: <span id="total">0</span></p>
-<p>Правильных: <span id="correct">0</span></p>
-<p>Ошибок: <span id="wrong">0</span></p>
-<p>Точность: <span id="accuracy">0%</span></p>
-<p>Лучший стрик: <span id="bestStreak">0</span></p>
-
-</div>
-
-
-<h3>📈 Прогресс обучения</h3>
-
-<canvas id="progressChart"></canvas>
-
-
-<h3>🏆 Достижения</h3>
-
-<div id="achievements"></div>
-
-
-<button class="btn btn-primary" onclick="location.href='index.html'">
-⬅ Назад
-</button>
-
-<button class="btn btn-red" onclick="resetProgress()">
-🗑 Сбросить прогресс
-</button>
-
+  <button onclick="resetProgress()">Сбросить прогресс</button>
+  <br><br>
+  <button onclick="location.href='index.html'">Назад</button>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
