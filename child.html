@@ -18,8 +18,8 @@
 
   <button id="startBtn">Старт</button>
   <button id="checkBtn" style="display:none;">Проверить</button>
-  <button id="stopBtn" style="display:none;">Стоп</button>
   <button id="hintBtn" style="display:none;">Подсказка</button>
+  <button id="stopBtn" style="display:none;">Стоп</button>
 
   <h3>Прогресс</h3>
   <div class="progress-bar"><div id="xpBar"></div></div>
@@ -31,27 +31,24 @@
   <h3>Достижения</h3>
   <div id="achievements"></div>
 
-  <button onclick="resetProgress()">Сбросить прогресс</button>
   <br><br>
   <button onclick="location.href='index.html'">Назад</button>
 </div>
 
 <script src="script.js"></script>
 <script>
-// ===================
-// Кнопки и подсказки
-// ===================
+// Кнопки
 const startBtn = document.getElementById("startBtn");
 const checkBtn = document.getElementById("checkBtn");
-const stopBtn = document.getElementById("stopBtn");
 const hintBtn = document.getElementById("hintBtn");
+const stopBtn = document.getElementById("stopBtn");
 
 startBtn.onclick = () => {
-  generate();
+  generate(); // Генерируем пример
   startBtn.style.display = "none";
   checkBtn.style.display = "block";
-  stopBtn.style.display = "block";
   hintBtn.style.display = "block";
+  stopBtn.style.display = "block";
   el("aiText").textContent = "Удачи!";
 }
 
@@ -84,29 +81,30 @@ checkBtn.onclick = () => {
   generate();
 }
 
+hintBtn.onclick = () => showHint();
+
 stopBtn.onclick = () => {
   checkBtn.style.display = "none";
-  stopBtn.style.display = "none";
   hintBtn.style.display = "none";
+  stopBtn.style.display = "none";
   startBtn.style.display = "block";
   el("task").textContent = "Нажми старт";
   el("hint").textContent = "";
   el("aiText").textContent = "Нажми старт, чтобы начать.";
 }
 
-hintBtn.onclick = () => showHint();
-
+// Подсказка: как проще начать пример
 function showHint(){
   if(!el("hint")) return;
   let hint="";
   let taskText=el("task").textContent;
   if(taskText.includes("-")){
-    hint="Сравни числа и вычти меньшее из большего.";
+    hint="💡 Начни с того, чтобы определить, какое число больше, и вычти меньшее из большего.";
   } else if(taskText.includes("+")){
-    hint="Сложи числа по единицам, потом десятки.";
+    hint="💡 Сложи сначала единицы, потом десятки, чтобы проще вычислить.";
   }
-  el("hint").textContent="💡 Подсказка: "+hint;
-  el("aiText").textContent="Вот подсказка, попробуй использовать её!";
+  el("hint").textContent = hint;
+  el("aiText").textContent = "Используй подсказку и попробуй решить пример!";
 }
 </script>
 </body>
