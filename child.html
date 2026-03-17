@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Тренировка</title>
 <link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -27,15 +26,11 @@
   XP: <span id="xp">0</span> | Серия: <span id="streak">0</span> | Уровень: <span id="playerLevel">1</span>
 
   <h3>AI говорит</h3>
-  <div id="aiText"></div>
+  <div id="aiText">Привет! Нажми старт, чтобы начать.</div>
 
   <h3>Достижения</h3>
   <div id="achievements"></div>
 
-  <h3>Статистика</h3>
-  Всего: <span id="total">0</span> | Правильно: <span id="correct">0</span> | Неправильно: <span id="wrong">0</span> | Точность: <span id="accuracy">0%</span> | Лучшая серия: <span id="bestStreak">0</span>
-
-  <canvas id="progressChart" style="margin-top:15px;"></canvas>
   <button onclick="resetProgress()">Сбросить прогресс</button>
   <br><br>
   <button onclick="location.href='index.html'">Назад</button>
@@ -43,12 +38,75 @@
 
 <script src="script.js"></script>
 <script>
-document.getElementById("hintBtn").onclick = () => showHint();
-document.getElementById("stopBtn").onclick = () => {
-  document.getElementById("checkBtn").style.display="none";
-  document.getElementById("stopBtn").style.display="none";
-  document.getElementById("startBtn").style.display="block";
-  el("task").textContent="Нажми старт";
+// ===================
+// Кнопки и подсказки
+// ===================
+const startBtn = document.getElementById("startBtn");
+const checkBtn = document.getElementById("checkBtn");
+const stopBtn = document.getElementById("stopBtn");
+const hintBtn = document.getElementById("hintBtn");
+
+startBtn.onclick = () => {
+  generate();
+  startBtn.style.display = "none";
+  checkBtn.style.display = "block";
+  stopBtn.style.display = "block";
+  hintBtn.style.display = "block";
+  el("aiText").textContent = "Удачи!";
+}
+
+checkBtn.onclick = () => {
+  let val = el("answer").value.trim();
+  if(val === "") return;
+  let num = Number(val);
+
+  data.total++;
+  saveHistory();
+
+  if(num === currentAnswer){
+    data.correct++;
+    data.streak++;
+    data.xp += 10;
+    aiMood("correct");
+    if(data.streak > data.bestStreak) data.bestStreak = data.streak;
+  } else {
+    data.wrong++;
+    data.streak = 0;
+    aiMood("wrong");
+    showHint();
+  }
+
+  checkLevel();
+  checkAchievements();
+  save();
+  updateUI();
+  el("answer").value = "";
+  generate();
+}
+
+stopBtn.onclick = () => {
+  checkBtn.style.display = "none";
+  stopBtn.style.display = "none";
+  hintBtn.style.display = "none";
+  startBtn.style.display = "block";
+  el("task").textContent = "Нажми старт";
+  el("hint").textContent = "";
+  el("aiText").textContent = "Нажми старт, чтобы начать.";
+}
+
+hintBtn.onclick = () => showHint();
+
+function showHint(){
+  if(!el("hint")) return;
+  let hint="";
+  let taskText=el("task").textContent;
+  if(taskText.includes("-")){
+    hint="Сравни числа и вычти меньшее из большего.";
+  } else if(taskText.includes("+")){
+    hint="Сложи числа по единицам, потом десятки.";
+  }
+  el("hint").textContent="💡 Подсказка: "+hint;
+  el("aiText").textContent="Вот подсказка, попробуй использовать её!";
 }
 </script>
 </body>
