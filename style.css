@@ -1,92 +1,169 @@
-body{
-font-family:Segoe UI;
-background:linear-gradient(135deg,#58cc02,#1cb0f6);
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-margin:0;
+/* =====================
+   Общие стили для всего проекта
+===================== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
-.card{
-background:white;
-padding:30px;
-border-radius:25px;
-width:360px;
-text-align:center;
-box-shadow:0 20px 50px rgba(0,0,0,0.2);
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+    margin: 20px 0;
 }
 
-.avatar{
-font-size:55px;
-margin-bottom:10px;
+/* =====================
+   Заголовки
+===================== */
+h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
 }
 
-.stats{
-display:flex;
-justify-content:space-between;
-margin-bottom:10px;
-font-weight:bold;
+h2 {
+    font-size: 1.6rem;
+    color: #333;
+    margin: 10px 0;
 }
 
-.progress{
-height:12px;
-background:#eee;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:15px;
+h3 {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 10px 0;
 }
 
-.progress-bar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#58cc02,#2ed573);
-transition:0.3s;
+/* =====================
+   Аватар
+===================== */
+.avatar {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    transition: all 0.3s;
 }
 
-.timer{
-font-weight:bold;
-margin-bottom:10px;
+/* =====================
+   Кнопки
+===================== */
+button, .btn {
+    display: inline-block;
+    width: 80%;
+    margin: 10px auto;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.task{
-font-size:22px;
-margin-bottom:10px;
+button:hover, .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-input{
-width:100%;
-padding:12px;
-border-radius:12px;
-border:2px solid #eee;
-margin-bottom:10px;
+.btn-child {
+    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
 }
 
-.btn{
-width:100%;
-padding:14px;
-margin-top:10px;
-border:none;
-border-radius:20px;
-font-weight:bold;
-cursor:pointer;
+.btn-parent {
+    background: linear-gradient(90deg, #a1c4fd, #c2e9fb);
 }
 
-.btn-primary{
-background:linear-gradient(45deg,#58cc02,#2ed573);
-color:white;
+.btn-teacher {
+    background: linear-gradient(90deg, #fbc2eb, #a6c1ee);
 }
 
-.btn-blue{
-background:linear-gradient(45deg,#1cb0f6,#0097e6);
-color:white;
+#startBtn, #checkBtn {
+    background: linear-gradient(90deg, #66a6ff, #89f7fe);
 }
 
-.btn-red{
-background:linear-gradient(45deg,#ff6b81,#ff4757);
-color:white;
+/* =====================
+   Поля ввода
+===================== */
+input[type=number] {
+    width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    text-align: center;
 }
 
-.hidden{
-display:none;
+/* =====================
+   Прогресс бар
+===================== */
+.progress-bar {
+    height: 10px;
+    width: 100%;
+    background: #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+#xpBar {
+    height: 10px;
+    width: 0%;
+    background: #66bb6a;
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+/* =====================
+   Подсказки и AI Text
+===================== */
+#hint, #aiText {
+    margin-top: 10px;
+    color: #ff9800;
+    font-weight: 500;
+    min-height: 24px;
+    transition: all 0.3s;
+}
+
+/* =====================
+   Статистика
+===================== */
+#achievements div {
+    background: #f0f0f0;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px auto;
+    width: fit-content;
+    font-weight: 500;
+    color: #333;
+}
+
+/* =====================
+   График
+===================== */
+canvas {
+    margin-top: 15px;
+    max-width: 100%;
+}
+
+/* =====================
+   Адаптивность
+===================== */
+@media screen and (max-width: 500px) {
+    .card {padding: 20px;}
+    button, .btn {width: 90%;}
+    input[type=number]{width: 80%;}
+    h1{font-size: 1.6rem;}
+    h2{font-size: 1.4rem;}
 }
