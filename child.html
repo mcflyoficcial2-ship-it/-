@@ -37,14 +37,13 @@
 
 <script src="script.js"></script>
 <script>
-// Кнопки
 const startBtn = document.getElementById("startBtn");
 const checkBtn = document.getElementById("checkBtn");
 const hintBtn = document.getElementById("hintBtn");
 const stopBtn = document.getElementById("stopBtn");
 
 startBtn.onclick = () => {
-  generate(); // Генерируем пример
+  generate();
   startBtn.style.display = "none";
   checkBtn.style.display = "block";
   hintBtn.style.display = "block";
@@ -93,7 +92,6 @@ stopBtn.onclick = () => {
   el("aiText").textContent = "Нажми старт, чтобы начать.";
 }
 
-// Подсказка: как проще начать пример
 function showHint(){
   if(!el("hint")) return;
   let hint="";
