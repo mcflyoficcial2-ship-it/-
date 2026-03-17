@@ -101,6 +101,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
       hint="💡 Начни с того, чтобы определить, какое число больше, и вычти меньшее из большего.";
     } else if(taskText.includes("+")){
       hint="💡 Сложи сначала единицы, потом десятки, чтобы проще вычислить.";
+    } else if(taskText.includes("×")){
+      hint="💡 Умножай небольшие числа сначала в уме, потом сложи результаты.";
+    } else if(taskText.includes("÷")){
+      hint="💡 Раздели число на части, если трудно, попробуй начать с деления десятков.";
     }
     el("hint").textContent = hint;
     el("aiText").textContent = "Используй подсказку и попробуй решить пример!";
