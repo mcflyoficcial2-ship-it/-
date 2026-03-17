@@ -37,73 +37,76 @@
 
 <script src="script.js"></script>
 <script>
-const startBtn = document.getElementById("startBtn");
-const checkBtn = document.getElementById("checkBtn");
-const hintBtn = document.getElementById("hintBtn");
-const stopBtn = document.getElementById("stopBtn");
+document.addEventListener("DOMContentLoaded", () => {
 
-startBtn.onclick = () => {
-  generate();
-  startBtn.style.display = "none";
-  checkBtn.style.display = "block";
-  hintBtn.style.display = "block";
-  stopBtn.style.display = "block";
-  el("aiText").textContent = "Удачи!";
-}
+  const startBtn = document.getElementById("startBtn");
+  const checkBtn = document.getElementById("checkBtn");
+  const hintBtn = document.getElementById("hintBtn");
+  const stopBtn = document.getElementById("stopBtn");
 
-checkBtn.onclick = () => {
-  let val = el("answer").value.trim();
-  if(val === "") return;
-  let num = Number(val);
-
-  data.total++;
-  saveHistory();
-
-  if(num === currentAnswer){
-    data.correct++;
-    data.streak++;
-    data.xp += 10;
-    aiMood("correct");
-    if(data.streak > data.bestStreak) data.bestStreak = data.streak;
-  } else {
-    data.wrong++;
-    data.streak = 0;
-    aiMood("wrong");
-    showHint();
+  startBtn.onclick = () => {
+    generate(); // Генерируем пример
+    startBtn.style.display = "none";
+    checkBtn.style.display = "block";
+    hintBtn.style.display = "block";
+    stopBtn.style.display = "block";
+    el("aiText").textContent = "Удачи!";
   }
 
-  checkLevel();
-  checkAchievements();
-  save();
-  updateUI();
-  el("answer").value = "";
-  generate();
-}
+  checkBtn.onclick = () => {
+    let val = el("answer").value.trim();
+    if(val === "") return;
+    let num = Number(val);
 
-hintBtn.onclick = () => showHint();
+    data.total++;
+    saveHistory();
 
-stopBtn.onclick = () => {
-  checkBtn.style.display = "none";
-  hintBtn.style.display = "none";
-  stopBtn.style.display = "none";
-  startBtn.style.display = "block";
-  el("task").textContent = "Нажми старт";
-  el("hint").textContent = "";
-  el("aiText").textContent = "Нажми старт, чтобы начать.";
-}
+    if(num === currentAnswer){
+      data.correct++;
+      data.streak++;
+      data.xp += 10;
+      aiMood("correct");
+      if(data.streak > data.bestStreak) data.bestStreak = data.streak;
+    } else {
+      data.wrong++;
+      data.streak = 0;
+      aiMood("wrong");
+      showHint();
+    }
 
-function showHint(){
-  if(!el("hint")) return;
-  let hint="";
-  let taskText=el("task").textContent;
-  if(taskText.includes("-")){
-    hint="💡 Начни с того, чтобы определить, какое число больше, и вычти меньшее из большего.";
-  } else if(taskText.includes("+")){
-    hint="💡 Сложи сначала единицы, потом десятки, чтобы проще вычислить.";
+    checkLevel();
+    checkAchievements();
+    save();
+    updateUI();
+    el("answer").value = "";
+    generate();
   }
-  el("hint").textContent = hint;
-  el("aiText").textContent = "Используй подсказку и попробуй решить пример!";
-}
+
+  hintBtn.onclick = () => showHint();
+
+  stopBtn.onclick = () => {
+    checkBtn.style.display = "none";
+    hintBtn.style.display = "none";
+    stopBtn.style.display = "none";
+    startBtn.style.display = "block";
+    el("task").textContent = "Нажми старт";
+    el("hint").textContent = "";
+    el("aiText").textContent = "Нажми старт, чтобы начать.";
+  }
+
+  function showHint(){
+    let hint = "";
+    let taskText = el("task").textContent;
+    if(taskText.includes("-")){
+      hint="💡 Начни с того, чтобы определить, какое число больше, и вычти меньшее из большего.";
+    } else if(taskText.includes("+")){
+      hint="💡 Сложи сначала единицы, потом десятки, чтобы проще вычислить.";
+    }
+    el("hint").textContent = hint;
+    el("aiText").textContent = "Используй подсказку и попробуй решить пример!";
+  }
+
+});
 </script>
 </body>
 </html>
