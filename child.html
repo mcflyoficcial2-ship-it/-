@@ -3,47 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Тренировка</title>
+<title>Тренировка устного счёта</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#e0f7fa; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0;}
+.card {background:white; border-radius:20px; padding:25px; max-width:450px; width:90%; box-shadow:0 8px 20px rgba(0,0,0,0.2); text-align:center; position:relative;}
+.avatar {font-size:3rem; margin-bottom:10px; transition:0.3s;}
+#task {font-size:1.8rem; margin:20px 0;}
+#hint {margin:10px 0; color:#ff9800; font-weight:500;}
+input[type=number]{width:60%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:10px; font-size:1rem;}
+button {padding:10px 20px; border:none; border-radius:12px; font-size:1rem; cursor:pointer; margin:5px; background:linear-gradient(90deg,#66a6ff,#89f7fe); color:white; transition:0.3s;}
+button:hover {transform:scale(1.05);}
+.progress-bar {height:10px; width:100%; background:#ddd; border-radius:5px; margin:10px 0;}
+#xpBar {height:10px; width:0%; background:#66bb6a; border-radius:5px;}
+</style>
 </head>
-
 <body>
 
 <div class="card">
+  <div class="avatar" id="avatar">🤖</div>
+  <h2>Тренировка устного счёта</h2>
+  <div id="task">Нажми старт</div>
+  <input type="number" id="answer" placeholder="Ваш ответ">
+  <div id="hint"></div>
+  <button id="startBtn">Старт</button>
+  <button id="checkBtn" style="display:none;">Проверить</button>
 
-<div class="avatar">🤖</div>
-<div id="aiText" class="ai-text">Готов начать тренировку?</div>
+  <h3>Прогресс</h3>
+  <div class="progress-bar"><div id="xpBar"></div></div>
+  XP: <span id="xp">0</span> | Серия: <span id="streak">0</span> | Уровень: <span id="playerLevel">1</span>
 
-<div class="stats">
-<div>XP: <span id="xp">0</span></div>
-<div>🔥: <span id="streak">0</span></div>
-<div>🏆: <span id="playerLevel">1</span></div>
-</div>
+  <h3>AI говорит</h3>
+  <div id="aiText"></div>
 
-<div class="progress">
-<div class="progress-bar" id="xpBar"></div>
-</div>
+  <h3>Достижения</h3>
+  <div id="achievements"></div>
 
-<div id="timer" class="timer">⏱ 60</div>
+  <h3>Статистика</h3>
+  Всего: <span id="total">0</span> | Правильно: <span id="correct">0</span> | Неправильно: <span id="wrong">0</span> | Точность: <span id="accuracy">0%</span> | Лучшая серия: <span id="bestStreak">0</span>
 
-<select id="levelSelect">
-<option value="1">Уровень 1</option>
-<option value="2">Уровень 2</option>
-<option value="3">Уровень 3</option>
-<option value="4">Уровень 4</option>
-<option value="5">Уровень 5</option>
-</select>
-
-<div id="task" class="task">Нажми Start 🚀</div>
-
-<input type="number" id="answer" placeholder="Введите ответ">
-
-<button id="startBtn" class="btn btn-primary">Start</button>
-<button id="checkBtn" class="btn btn-blue hidden">Check</button>
-<button id="stopBtn" class="btn btn-red hidden">Stop</button>
-
-<button class="btn" onclick="location.href='index.html'">⬅ Назад</button>
-
+  <canvas id="progressChart" style="margin-top:15px;"></canvas>
+  <button onclick="resetProgress()">Сбросить прогресс</button>
 </div>
 
 <script src="script.js"></script>
