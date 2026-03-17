@@ -12,16 +12,17 @@
   <div class="avatar" id="avatar">🤖</div>
   <h1>Intellect Trainer</h1>
 
-  <button class="btn btn-child" id="btnChild">Я ребёнок</button>
-  <button class="btn btn-parent" id="btnParent">Я родитель</button>
-  <button class="btn btn-teacher" id="btnTeacher">Я учитель</button>
+  <button class="btn" id="btnChild">Я ребёнок</button>
+  <button class="btn" id="btnParent">Я родитель</button>
+  <button class="btn" id="btnTeacher">Я учитель</button>
 </div>
 
 <script>
 document.getElementById("btnChild").onclick = () => { location.href="child.html"; }
 document.getElementById("btnParent").onclick = () => { location.href="stats.html"; }
-document.getElementById("btnTeacher").onclick = () => { alert("Учительский режим пока в разработке."); }
+document.getElementById("btnTeacher").onclick = () => { location.href="stats.html"; }
 
+// AI-аватар слегка анимирован
 let avatar = document.getElementById("avatar");
 let moods = ["🤖","😄","🤔","🥳"];
 setInterval(()=>{ avatar.textContent = moods[Math.floor(Math.random()*moods.length)]; },3000);
