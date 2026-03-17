@@ -15,24 +15,10 @@ let data = JSON.parse(localStorage.getItem("mathTrainerData")) || {
   total:0,
   history:[],
   achievements:[],
-  lastDifficulty:1 // для AI‑адаптации
+  lastDifficulty:1
 }
 
 let currentAnswer = 0
-
-// =================
-// SOUNDS
-// =================
-
-const soundCorrect=new Audio("sounds/correct.mp3")
-const soundWrong=new Audio("sounds/wrong.mp3")
-const soundLevel=new Audio("sounds/level.mp3")
-const soundClick=new Audio("sounds/click.mp3")
-
-function playCorrect(){soundCorrect.currentTime=0;soundCorrect.play()}
-function playWrong(){soundWrong.currentTime=0;soundWrong.play()}
-function playLevel(){soundLevel.currentTime=0;soundLevel.play()}
-function playClick(){soundClick.currentTime=0;soundClick.play()}
 
 // =================
 // SAVE
@@ -47,7 +33,6 @@ function save(){
 // =================
 
 function getDifficulty(){
-  // AI-адаптация: повышаем сложность если серия > 3, снижаем при 2 ошибках подряд
   if(data.streak >= 3 && data.lastDifficulty < 5) data.lastDifficulty++
   if(data.streak === 0 && data.wrong >=2 && data.lastDifficulty>1) data.lastDifficulty--
   return data.lastDifficulty
@@ -76,8 +61,7 @@ function generate(){
 
   currentAnswer = op==="+"? a+b : a-b
   el("task").textContent=`${a} ${op} ${b} = ?`
-
-  el("hint").textContent="" // скрываем подсказку
+  el("hint").textContent=""
 }
 
 // =================
@@ -97,8 +81,6 @@ function saveHistory(){
 
 function showHint(){
   if(!el("hint")) return
-  // простая стратегия устного счета
-  // пример: если вычитание, предложить "сравни числа, вычти меньшее из большего"
   let hint=""
   let taskText=el("task").textContent
   if(taskText.includes("-")){
@@ -127,8 +109,8 @@ function aiMood(type){
 function checkLevel(){
   let newLevel=Math.floor(data.xp/100)+1
   if(newLevel > Math.floor(data.xp/100)){
-    playLevel()
     aiMood("level")
+    confetti()
   }
 }
 
@@ -152,14 +134,33 @@ function checkAchievements(){
 }
 
 // =================
+// CONFETTI
+// =================
+
+function confetti(){
+  for(let i=0;i<25;i++){
+    let c=document.createElement("div")
+    c.style.position="fixed"
+    c.style.width="8px"
+    c.style.height="8px"
+    c.style.background=`hsl(${Math.random()*360},100%,50%)`
+    c.style.left=Math.random()*100+"vw"
+    c.style.top="-10px"
+    document.body.appendChild(c)
+    let fall=setInterval(()=>{
+      c.style.top=(c.offsetTop+5)+"px"
+      if(c.offsetTop>window.innerHeight){clearInterval(fall);c.remove()}
+    },16)
+  }
+}
+
+// =================
 // TRAINING LOGIC
 // =================
 
 function initTraining(){
   if(!el("startBtn"))return
-
   el("startBtn").onclick=()=>{
-    playClick()
     generate()
     el("startBtn").style.display="none"
     el("checkBtn").style.display="block"
@@ -174,18 +175,16 @@ function initTraining(){
     saveHistory()
 
     if(num===currentAnswer){
-      playCorrect()
       data.correct++
       data.streak++
       data.xp+=10
       aiMood("correct")
       if(data.streak>data.bestStreak) data.bestStreak=data.streak
     } else {
-      playWrong()
       data.wrong++
       data.streak=0
       aiMood("wrong")
-      showHint() // показываем подсказку при ошибке
+      showHint()
     }
 
     checkLevel()
@@ -221,6 +220,29 @@ function drawChart(){
     type:"line",
     data:{labels:labels,datasets:[{label:"Решено задач",data:values,tension:0.3}]}
   })
+}
+
+// =================
+// UI UPDATE
+// =================
+
+function updateUI(){
+  if(el("xp")) el("xp").textContent=data.xp
+  if(el("streak")) el("streak").textContent=data.streak
+  if(el("playerLevel")) el("playerLevel").textContent=Math.floor(data.xp/100)+1
+  if(el("xpBar")) el("xpBar").style.width=(data.xp%100)+"%"
+  updateStats()
+  updateAchievements()
+}
+
+function updateStats(){
+  if(!el("total")) return
+  let accuracy=data.total?Math.round(data.correct/data.total*100):0
+  el("total").textContent=data.total
+  el("correct").textContent=data.correct
+  el("wrong").textContent=data.wrong
+  el("accuracy").textContent=accuracy+"%"
+  el("bestStreak").textContent=data.bestStreak
 }
 
 // =================
