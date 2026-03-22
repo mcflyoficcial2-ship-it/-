@@ -3,30 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intellect Trainer</title>
+<title>Устный счёт — вход</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div class="card">
-  <div class="avatar" id="avatar">🤖</div>
-  <h1>Intellect Trainer</h1>
-
-  <button class="btn" id="btnChild">Я ребёнок</button>
-  <button class="btn" id="btnParent">Я родитель</button>
-  <button class="btn" id="btnTeacher">Я учитель</button>
+  <h2>Выберите режим</h2>
+  <button onclick="location.href='child.html'">Я ребёнок</button>
+  <button onclick="location.href='parent.html'">Я родитель</button>
+  <button onclick="location.href='teacher.html'">Я учитель</button>
 </div>
-
-<script>
-document.getElementById("btnChild").onclick = () => { location.href="child.html"; }
-document.getElementById("btnParent").onclick = () => { location.href="stats.html"; }
-document.getElementById("btnTeacher").onclick = () => { location.href="stats.html"; }
-
-// AI-аватар слегка анимирован
-let avatar = document.getElementById("avatar");
-let moods = ["🤖","😄","🤔","🥳"];
-setInterval(()=>{ avatar.textContent = moods[Math.floor(Math.random()*moods.length)]; },3000);
-</script>
-
 </body>
 </html>
