@@ -49,35 +49,65 @@ document.addEventListener("DOMContentLoaded", ()=>{
     checkBtn.style.display = "inline-block";
     hintBtn.style.display = "inline-block";
     stopBtn.style.display = "inline-block";
-    el("aiText").textContent = "Давай начнём!";
+    el("aiText").textContent = "🚀 Давай начнём!";
   }
 
   checkBtn.onclick = () => {
     let val = el("answer").value.trim();
     if(val === "") return;
+
     let num = Number(val);
 
     data.total++;
     saveHistory();
 
-    if(num === currentAnswer){
+    let isCorrect = num === currentAnswer;
+
+    if(isCorrect){
       data.correct++;
       data.streak++;
       data.xp += 10;
+
+      if(data.streak > data.bestStreak) 
+        data.bestStreak = data.streak;
+
       aiMood("correct");
-      if(data.streak > data.bestStreak) data.bestStreak = data.streak;
-      el("aiText").textContent = "Ты молодец! Продолжай!";
+
+      let good = [
+        "😄 Отлично!",
+        "🔥 Круто!",
+        "💪 Так держать!",
+        "👏 Молодец!"
+      ];
+      el("aiText").textContent = good[Math.floor(Math.random()*good.length)];
+
     } else {
       data.wrong++;
       data.streak = 0;
+
       aiMood("wrong");
+
+      let bad = [
+        "🤔 Попробуй ещё",
+        "💡 Подумай",
+        "😅 Почти!",
+        "Не сдавайся!"
+      ];
+      el("aiText").textContent = bad[Math.floor(Math.random()*bad.length)];
+
       showHint();
+    }
+
+    // 🔥 АДАПТИВНАЯ СЛОЖНОСТЬ (главный фикс)
+    if(typeof updateDifficulty === "function"){
+      updateDifficulty(isCorrect);
     }
 
     checkLevel();
     checkAchievements();
     save();
     updateUI();
+
     el("answer").value = "";
     generate();
   }
@@ -89,26 +119,32 @@ document.addEventListener("DOMContentLoaded", ()=>{
     hintBtn.style.display = "none";
     stopBtn.style.display = "none";
     startBtn.style.display = "inline-block";
+
     el("task").textContent = "Нажми старт";
     el("hint").textContent = "";
-    el("aiText").textContent = "Нажми старт, чтобы начать.";
+    el("aiText").textContent = "Остановились. Можно начать заново.";
   }
 
   function showHint(){
-    let hint = "";
     let taskText = el("task").textContent;
+    let hint = "";
+
     if(taskText.includes("-")){
-      hint="💡 Начни с того, чтобы определить, какое число больше, и вычти меньшее из большего.";
-    } else if(taskText.includes("+")){
-      hint="💡 Сложи сначала единицы, потом десятки, чтобы проще вычислить.";
-    } else if(taskText.includes("×")){
-      hint="💡 Умножай небольшие числа сначала в уме, потом сложи результаты.";
-    } else if(taskText.includes("÷")){
-      hint="💡 Раздели число на части, если трудно, попробуй начать с деления десятков.";
+      hint="💡 Попробуй сначала округлить число, потом вычесть.";
+    } 
+    else if(taskText.includes("+")){
+      hint="💡 Сложи сначала десятки, потом единицы.";
     }
+    else if(taskText.includes("×")){
+      hint="💡 Умножай по частям.";
+    }
+    else if(taskText.includes("÷")){
+      hint="💡 Подумай, какое число умножить, чтобы получить это.";
+    }
+
     el("hint").textContent = hint;
-    el("aiText").textContent = "Используй подсказку и попробуй решить пример!";
   }
+
 });
 </script>
 </body>
