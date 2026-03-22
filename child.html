@@ -28,22 +28,18 @@
   <h3>AI говорит</h3>
   <div id="aiText">Привет! Нажми старт, чтобы начать.</div>
 
-  <h3>Достижения</h3>
-  <div id="achievements"></div>
-
   <br><br>
   <button onclick="location.href='index.html'">Назад</button>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
-
-  function el(id){ return document.getElementById(id); }
-  function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  const el = id => document.getElementById(id);
+  const rand = (min,max)=>Math.floor(Math.random()*(max-min+1))+min;
 
   let data = JSON.parse(localStorage.getItem("mathData")) || {
     total:0, correct:0, wrong:0, streak:0, bestStreak:0,
-    xp:0, level:1, difficulty:1, correctStreak:0, wrongStreak:0, history:[]
+    xp:0, level:1, difficulty:1, correctStreak:0, wrongStreak:0
   };
 
   let currentAnswer = 0;
@@ -53,55 +49,48 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   function generate(){
     let a,b,op;
-    let d = data.difficulty;
-
-    // Супер лёгкий первый уровень
-    if(d===1){ a=rand(1,5); b=rand(1,5); }
-    else if(d===2){ a=rand(1,9); b=rand(1,9); }
-    else if(d===3){ a=rand(10,49); b=rand(1,49); }
-    else if(d===4){ a=rand(50,99); b=rand(10,99); }
-    else { a=rand(100,499); b=rand(50,499); }
-
+    switch(data.difficulty){
+      case 1: a=rand(1,3); b=rand(1,3); break;
+      case 2: a=rand(1,5); b=rand(1,5); break;
+      case 3: a=rand(6,9); b=rand(1,9); break;
+      case 4: a=rand(10,49); b=rand(1,49); break;
+      case 5: a=rand(50,99); b=rand(10,99); break;
+      default: a=rand(100,499); b=rand(50,499);
+    }
     op = Math.random()<0.5?"+":"-";
     currentAnswer = op==="+"?a+b:a-b;
-
-    if(el("task")) el("task").textContent = `${a} ${op} ${b}`;
+    el("task").textContent = `${a} ${op} ${b}`;
+    el("hint").textContent = "";
   }
 
   function showHint(){
-    const t = el("task");
-    if(!t) return;
-    let hint="";
-    if(t.textContent.includes("-")) hint="💡 Попробуй округлить число, а потом вычесть.";
-    else hint="💡 Сложи сначала десятки, потом единицы.";
-    if(el("hint")) el("hint").textContent = hint;
+    let t = el("task").textContent;
+    let hint = t.includes("-")?"💡 Сначала округли, потом вычти":"💡 Сначала десятки, потом единицы";
+    el("hint").textContent = hint;
   }
 
   function updateDifficulty(correct){
     if(correct){ data.correctStreak++; data.wrongStreak=0; }
     else { data.wrongStreak++; data.correctStreak=0; }
 
-    // Повышаем сложность постепенно
-    if(data.correctStreak>=3 && data.difficulty<5){ 
+    if(data.correctStreak>=3 && data.difficulty<6){ 
       data.difficulty++; data.correctStreak=0; 
-      if(el("aiText")) el("aiText").textContent="AI повышает уровень сложности 🚀"; 
+      el("aiText").textContent="AI повышает сложность 🚀"; 
     }
-
-    // Упрощаем при ошибках
     if(data.wrongStreak>=2 && data.difficulty>1){ 
       data.difficulty--; data.wrongStreak=0; 
-      if(el("aiText")) el("aiText").textContent="AI немного упростил задания ⚡"; 
+      el("aiText").textContent="AI упрощает задания ⚡"; 
     }
   }
 
   function checkLevel(){
-    if(data.xp >= data.level*100){ data.level++; if(el("aiText")) el("aiText").textContent="🎉 Новый уровень!"; }
+    if(data.xp>=data.level*100){ data.level++; el("aiText").textContent="🎉 Новый уровень!"; }
   }
 
   function updateUI(){
-    if(el("xp")) el("xp").textContent = data.xp;
-    if(el("streak")) el("streak").textContent = data.streak;
-    if(el("playerLevel")) el("playerLevel").textContent = data.level;
+    el("xp").textContent = data.xp;
+    el("streak").textContent = data.streak;
+    el("playerLevel").textContent = data.level;
   }
 
   const startBtn = el("startBtn");
@@ -109,54 +98,50 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const hintBtn = el("hintBtn");
   const stopBtn = el("stopBtn");
 
-  if(startBtn) startBtn.onclick = ()=>{
+  startBtn.onclick = ()=>{
     generate();
     startBtn.style.display="none";
-    if(checkBtn) checkBtn.style.display="inline-block";
-    if(hintBtn) hintBtn.style.display="inline-block";
-    if(stopBtn) stopBtn.style.display="inline-block";
-    if(el("aiText")) el("aiText").textContent="🚀 Давай начнём!";
+    checkBtn.style.display="inline-block";
+    hintBtn.style.display="inline-block";
+    stopBtn.style.display="inline-block";
+    el("aiText").textContent="🚀 Начинаем!";
   }
 
-  if(checkBtn) checkBtn.onclick = ()=>{
-    const answerEl = el("answer"); if(!answerEl) return;
-    const val = answerEl.value.trim(); if(val==="") return;
+  checkBtn.onclick = ()=>{
+    const val = el("answer").value.trim();
+    if(val==="") return;
     const num = Number(val);
-
     data.total++;
-    const isCorrect = num===currentAnswer;
-    if(isCorrect){
+    const correct = num===currentAnswer;
+    if(correct){
       data.correct++; data.streak++; data.xp+=10;
       if(data.streak>data.bestStreak) data.bestStreak=data.streak;
       aiMood("correct");
-      const good=["😄 Отлично!","🔥 Круто!","💪 Так держать!","👏 Молодец!"];
-      if(el("aiText")) el("aiText").textContent = good[Math.floor(Math.random()*good.length)];
+      const msgs=["😄 Отлично!","🔥 Круто!","💪 Молодец!"];
+      el("aiText").textContent = msgs[Math.floor(Math.random()*msgs.length)];
     } else {
-      data.wrong++; data.streak=0; aiMood("wrong");
-      const bad=["🤔 Попробуй ещё","💡 Подумай","😅 Почти!","Не сдавайся!"];
-      if(el("aiText")) el("aiText").textContent = bad[Math.floor(Math.random()*bad.length)];
-      showHint();
+      data.wrong++; data.streak=0; aiMood("wrong"); showHint();
+      const msgs=["🤔 Попробуй ещё","💡 Подумай","😅 Почти!"];
+      el("aiText").textContent = msgs[Math.floor(Math.random()*msgs.length)];
     }
-
-    updateDifficulty(isCorrect);
-    checkLevel();
-    save();
-    updateUI();
-    answerEl.value="";
+    updateDifficulty(correct);
+    checkLevel(); save(); updateUI();
+    el("answer").value="";
     generate();
   }
 
-  if(hintBtn) hintBtn.onclick = ()=>showHint();
+  hintBtn.onclick = showHint;
 
-  if(stopBtn) stopBtn.onclick = ()=>{
-    if(checkBtn) checkBtn.style.display="none";
-    if(hintBtn) hintBtn.style.display="none";
+  stopBtn.onclick = ()=>{
+    checkBtn.style.display="none";
+    hintBtn.style.display="none";
     stopBtn.style.display="none";
-    if(startBtn) startBtn.style.display="inline-block";
-    if(el("task")) el("task").textContent="Нажми старт";
-    if(el("hint")) el("hint").textContent="";
-    if(el("aiText")) el("aiText").textContent="Остановились. Можно начать заново.";
+    startBtn.style.display="inline-block";
+    el("task").textContent="Нажми старт";
+    el("hint").textContent="";
+    el("aiText").textContent="Остановились. Можно начать заново.";
   }
 
+  updateUI();
 });
 </script>
