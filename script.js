@@ -2,7 +2,7 @@
 function el(id){ return document.getElementById(id); }
 function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 
-// === ДАННЫЕ ===
+// === ДАННЫЕ (сохраняем ВСЁ) ===
 let data = JSON.parse(localStorage.getItem("mathData")) || {
   total:0,
   correct:0,
@@ -12,19 +12,18 @@ let data = JSON.parse(localStorage.getItem("mathData")) || {
   xp:0,
   level:1,
   history:[],
-  achievements:[]
+  achievements:[],
+  difficulty:1,
+  correctStreak:0,
+  wrongStreak:0
 };
-
-// === АДАПТИВНАЯ СЛОЖНОСТЬ ===
-let difficulty = 1;
-let correctStreak = 0;
-let wrongStreak = 0;
 
 let currentAnswer = 0;
 
-// === ГЕНЕРАЦИЯ ПРИМЕРОВ ===
+// === ГЕНЕРАЦИЯ ПРИМЕРОВ (АДАПТИВНАЯ) ===
 function generate(){
   let a,b,op;
+  let difficulty = data.difficulty;
 
   if(difficulty === 1){
     a = rand(1,9);
@@ -36,8 +35,7 @@ function generate(){
     a = rand(10,99);
 
     if(Math.random() < 0.6){
-      b = rand(9,99);
-      b = Math.floor(b/10)*10 + 9; // делаем ...9
+      b = Math.floor(rand(1,9))*10 + 9; // важный фикс
       op = "-";
     } else {
       b = rand(10,99);
@@ -76,20 +74,43 @@ function generate(){
 
 // === AI РЕАКЦИИ ===
 function aiMood(type){
-  const avatar = el("avatar");
+  if(!el("avatar")) return;
 
-  if(type==="correct"){
-    avatar.textContent = "😄";
-  } else if(type==="wrong"){
-    avatar.textContent = "🤔";
+  if(type==="correct") el("avatar").textContent = "😄";
+  else el("avatar").textContent = "🤔";
+}
+
+// === АДАПТИВНАЯ СЛОЖНОСТЬ ===
+function updateDifficulty(isCorrect){
+
+  if(isCorrect){
+    data.correctStreak++;
+    data.wrongStreak = 0;
+  } else {
+    data.wrongStreak++;
+    data.correctStreak = 0;
+  }
+
+  // повышение сложности
+  if(data.correctStreak >= 3 && data.difficulty < 5){
+    data.difficulty++;
+    data.correctStreak = 0;
+    if(el("aiText")) el("aiText").textContent = "🔥 Супер! Усложняем!";
+  }
+
+  // понижение сложности
+  if(data.wrongStreak >= 2 && data.difficulty > 1){
+    data.difficulty--;
+    data.wrongStreak = 0;
+    if(el("aiText")) el("aiText").textContent = "💡 Давай чуть проще!";
   }
 }
 
-// === ПРОВЕРКА УРОВНЯ ===
+// === УРОВЕНЬ ===
 function checkLevel(){
   if(data.xp >= data.level*100){
     data.level++;
-    el("aiText").textContent = "🎉 Новый уровень!";
+    if(el("aiText")) el("aiText").textContent = "🎉 Новый уровень!";
   }
 }
 
@@ -100,19 +121,20 @@ function checkAchievements(){
   }
 }
 
-// === СОХРАНЕНИЕ ===
-function save(){
-  localStorage.setItem("mathData", JSON.stringify(data));
-}
-
 // === ИСТОРИЯ ===
 function saveHistory(){
   data.history.push(data.correct);
   if(data.history.length > 20) data.history.shift();
 }
 
+// === СОХРАНЕНИЕ ===
+function save(){
+  localStorage.setItem("mathData", JSON.stringify(data));
+}
+
 // === UI ===
 function updateUI(){
+
   if(el("xp")) el("xp").textContent = data.xp;
   if(el("streak")) el("streak").textContent = data.streak;
   if(el("playerLevel")) el("playerLevel").textContent = data.level;
@@ -133,9 +155,8 @@ function updateUI(){
   if(el("bestStreak")) el("bestStreak").textContent = data.bestStreak;
 
   if(el("achievements")){
-    el("achievements").textContent = data.achievements.length 
-      ? "🏆 Достижения получены!" 
-      : "Пока нет достижений";
+    el("achievements").textContent =
+      data.achievements.length ? "🏆 Есть достижения!" : "Пока нет";
   }
 }
 
