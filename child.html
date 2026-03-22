@@ -38,111 +38,114 @@
 <script src="script.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
-  const startBtn = document.getElementById("startBtn");
-  const checkBtn = document.getElementById("checkBtn");
-  const hintBtn = document.getElementById("hintBtn");
-  const stopBtn = document.getElementById("stopBtn");
 
-  startBtn.onclick = () => {
-    generate(); 
-    startBtn.style.display = "none";
-    checkBtn.style.display = "inline-block";
-    hintBtn.style.display = "inline-block";
-    stopBtn.style.display = "inline-block";
-    el("aiText").textContent = "🚀 Давай начнём!";
-  }
+  const startBtn = el("startBtn");
+  const checkBtn = el("checkBtn");
+  const hintBtn = el("hintBtn");
+  const stopBtn = el("stopBtn");
 
-  checkBtn.onclick = () => {
-    let val = el("answer").value.trim();
-    if(val === "") return;
-
-    let num = Number(val);
-
-    data.total++;
-    saveHistory();
-
-    let isCorrect = num === currentAnswer;
-
-    if(isCorrect){
-      data.correct++;
-      data.streak++;
-      data.xp += 10;
-
-      if(data.streak > data.bestStreak) 
-        data.bestStreak = data.streak;
-
-      aiMood("correct");
-
-      let good = [
-        "😄 Отлично!",
-        "🔥 Круто!",
-        "💪 Так держать!",
-        "👏 Молодец!"
-      ];
-      el("aiText").textContent = good[Math.floor(Math.random()*good.length)];
-
-    } else {
-      data.wrong++;
-      data.streak = 0;
-
-      aiMood("wrong");
-
-      let bad = [
-        "🤔 Попробуй ещё",
-        "💡 Подумай",
-        "😅 Почти!",
-        "Не сдавайся!"
-      ];
-      el("aiText").textContent = bad[Math.floor(Math.random()*bad.length)];
-
-      showHint();
+  // === СТАРТ ===
+  if(startBtn){
+    startBtn.onclick = () => {
+      generate();
+      startBtn.style.display = "none";
+      if(checkBtn) checkBtn.style.display = "inline-block";
+      if(hintBtn) hintBtn.style.display = "inline-block";
+      if(stopBtn) stopBtn.style.display = "inline-block";
+      if(el("aiText")) el("aiText").textContent = "🚀 Давай начнём!";
     }
+  }
 
-    // 🔥 АДАПТИВНАЯ СЛОЖНОСТЬ (главный фикс)
-    if(typeof updateDifficulty === "function"){
-      updateDifficulty(isCorrect);
+  // === ПРОВЕРКА ===
+  if(checkBtn){
+    checkBtn.onclick = () => {
+      const answerEl = el("answer");
+      if(!answerEl) return;
+      const val = answerEl.value.trim();
+      if(val === "") return;
+
+      const num = Number(val);
+      data.total++;
+      saveHistory();
+
+      const isCorrect = num === currentAnswer;
+
+      if(isCorrect){
+        data.correct++;
+        data.streak++;
+        data.xp += 10;
+        if(data.streak > data.bestStreak) data.bestStreak = data.streak;
+
+        aiMood("correct");
+
+        const good = ["😄 Отлично!", "🔥 Круто!", "💪 Так держать!", "👏 Молодец!"];
+        if(el("aiText")) el("aiText").textContent = good[Math.floor(Math.random()*good.length)];
+
+      } else {
+        data.wrong++;
+        data.streak = 0;
+
+        aiMood("wrong");
+
+        const bad = ["🤔 Попробуй ещё", "💡 Подумай", "😅 Почти!", "Не сдавайся!"];
+        if(el("aiText")) el("aiText").textContent = bad[Math.floor(Math.random()*bad.length)];
+
+        showHint();
+      }
+
+      // адаптивная сложность
+      if(typeof updateDifficulty === "function"){
+        updateDifficulty(isCorrect);
+      }
+
+      checkLevel();
+      checkAchievements();
+      save();
+      updateUI();
+
+      answerEl.value = "";
+      generate();
     }
-
-    checkLevel();
-    checkAchievements();
-    save();
-    updateUI();
-
-    el("answer").value = "";
-    generate();
   }
 
-  hintBtn.onclick = () => showHint();
-
-  stopBtn.onclick = () => {
-    checkBtn.style.display = "none";
-    hintBtn.style.display = "none";
-    stopBtn.style.display = "none";
-    startBtn.style.display = "inline-block";
-
-    el("task").textContent = "Нажми старт";
-    el("hint").textContent = "";
-    el("aiText").textContent = "Остановились. Можно начать заново.";
+  // === ПОДСКАЗКА ===
+  if(hintBtn){
+    hintBtn.onclick = () => showHint();
   }
 
+  // === СТОП ===
+  if(stopBtn){
+    stopBtn.onclick = () => {
+      if(checkBtn) checkBtn.style.display = "none";
+      if(hintBtn) hintBtn.style.display = "none";
+      stopBtn.style.display = "none";
+      if(startBtn) startBtn.style.display = "inline-block";
+
+      if(el("task")) el("task").textContent = "Нажми старт";
+      if(el("hint")) el("hint").textContent = "";
+      if(el("aiText")) el("aiText").textContent = "Остановились. Можно начать заново.";
+    }
+  }
+
+  // === ПОДСКАЗКА ===
   function showHint(){
-    let taskText = el("task").textContent;
+    const taskEl = el("task");
+    if(!taskEl) return;
+    const taskText = taskEl.textContent;
     let hint = "";
 
     if(taskText.includes("-")){
       hint="💡 Попробуй сначала округлить число, потом вычесть.";
-    } 
-    else if(taskText.includes("+")){
+    } else if(taskText.includes("+")){
       hint="💡 Сложи сначала десятки, потом единицы.";
-    }
-    else if(taskText.includes("×")){
+    } else if(taskText.includes("×")){
       hint="💡 Умножай по частям.";
-    }
-    else if(taskText.includes("÷")){
+    } else if(taskText.includes("÷")){
       hint="💡 Подумай, какое число умножить, чтобы получить это.";
     }
 
-    el("hint").textContent = hint;
+    const hintEl = el("hint");
+    if(hintEl) hintEl.textContent = hint;
   }
 
 });
